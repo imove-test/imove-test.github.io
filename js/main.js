@@ -2,9 +2,10 @@
 
 var templates = new Templates();
 
-callbacks.onDOMReady.push(function () {
-    templates.loadTemplatesFromDOM();
-    templates.goTo('index');
+templates.addRoutes({
+    '/': 'index',
+    '/test/begin': 'beginTest',
+    '/test/run': 'test'
 });
 
 templates.on('index', (function () {
@@ -43,3 +44,7 @@ templates.on('test', (function () {
     };
     return handlers;
 })());
+
+document.addEventListener('DOMContentLoaded', function () {
+    templates.bootUp();
+});

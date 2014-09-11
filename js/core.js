@@ -1,32 +1,5 @@
 'use strict';
 
-var callbacks = {
-    onDOMReady: [],
-    onContentReady: []
-};
-
-/**
- * Calls onDOMReady when html is loaded, and onContentReady when everything is ready
- * TODO accept multiple callbacks
- */
-document.onreadystatechange = function (e) {
-    var state = document.readyState;
-    if (state === 'interactive') {
-        for (var i=0 ; i < callbacks.onDOMReady.length ; i++) {
-            var cb = callbacks.onDOMReady[i];
-            cb();
-        }
-    } else if (state === 'complete') {
-        if (typeof onContentReady !== 'undefined') {
-            onContentReady();
-            for (var i=0 ; i < callbacks.onContentReady.length ; i++) {
-                var cb = callbacks.onContentReady[i];
-                cb();
-            }
-        }
-    }
-};
-
 // steal this id generating function from SO, so it isn't done in smaller, stupider places
 // http://stackoverflow.com/questions/1349404/generate-a-string-of-5-random-characters-in-javascript
 function makeid(length) {
@@ -41,13 +14,11 @@ function makeid(length) {
     return text;
 }
 
-function getTemplates() {
-}
-
 function Templates() {
     this.templates = {};
     this.handlers = {};
     this.hookups = {};
+    this.routes = {};
 
     this.currentTemplateName = null;
 }
@@ -61,17 +32,17 @@ Templates.prototype.loadTemplates = function (givenTemplates) {
 Templates.prototype.on = function (name, handlers) {
     this.handlers[name] = handlers;
 };
-Templates.prototype.goTo = function (name, data) {
-    var template = this.templates[name];
-    if (!template) {
-        throw new Error('No such template ' + name);
-    }
+Templates.prototype.goTo = function (name) {
     this.triggerHandler('unload');
-    this.currentTemplateName = name;
-    document.body.innerHTML = template.content;
-    this.loadHookups();
-    this.triggerHandler('load', data);
+    document.location.hash = '!' + this.getPathForTemplateId(name);
 };
+Templates.prototype.getPathForTemplateId = function (id) {
+    for (var path in this.routes) {
+        if (this.routes[path] === id) {
+            return path;
+        }
+    }
+}
 Templates.prototype.triggerHandler = function (name, data) {
     var handlers = this.handlers[this.currentTemplateName];
     if (handlers && handlers[name]) {
@@ -98,6 +69,40 @@ Templates.prototype.loadTemplatesFromDOM = function () {
         });
     }
     this.loadTemplates(tmp);
+}
+Templates.prototype.addRoutes = function (routes) {
+    for (var url in routes) {
+        var id = routes[url];
+        this.routes[url] = id;
+    }
+}
+Templates.prototype.bootUp = function () {
+    this.loadTemplatesFromDOM();
+    this.installNavigationListener();
+    this.onHashChange();
+}
+Templates.prototype.navigateTo = function (pathname) {
+    var templateId = this.getTemplateIdForHash(document.location.hash);
+    this.goTo(templateId);
+}
+Templates.prototype.installNavigationListener = function () {
+    window.addEventListener('hashchange', this.onHashChange.bind(this));
+}
+Templates.prototype.onHashChange = function () {
+    var hash = window.location.hash;
+    var id = this.getTemplateIdForHash(hash);
+    if (!this.templates.hasOwnProperty(id)) {
+        id = '404';
+    }
+    var template = this.templates[id];
+    this.currentTemplateName = id;
+    document.body.innerHTML = template.content;
+    this.loadHookups();
+    this.triggerHandler('load');
+}
+Templates.prototype.getTemplateIdForHash = function (hash) {
+    var strippedHash = hash.replace(/^#!/, '') || '/';
+    return this.routes[strippedHash];
 }
 
 function onDrag(element, handler) {
