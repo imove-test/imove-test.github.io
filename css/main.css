@@ -64,6 +64,10 @@ input.input-sm {
     font-family: monospace;
 }
 
+.list-numeric {
+    list-style-type: decimal;
+}
+
 /* http://nicolasgallagher.com/micro-clearfix-hack/ */
 .clearfix:before, .clearfix:after {
     content: " ";
