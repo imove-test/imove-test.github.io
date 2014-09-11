@@ -5,7 +5,9 @@ var templates = new Templates();
 templates.addRoutes({
     '/': 'index',
     '/test/begin': 'beginTest',
-    '/test/run': 'test'
+    '/test/run': 'test',
+    '/results': 'results',
+    '/result/{id}': 'result'
 });
 
 templates.on('index', (function () {
@@ -37,6 +39,18 @@ templates.on('beginTest', (function () {
 templates.on('test', (function () {
     var handlers = {
         load: function () {
+            // initialize the orientation event listener
+            // start pumping data into it
+            // update the ui to indicate the step the user is at
+        }, unload: function () {}
+    };
+    return handlers;
+})());
+
+templates.on('result', (function () {
+    var handlers = {
+        load: function (args) {
+            console.log(args);
             // initialize the orientation event listener
             // start pumping data into it
             // update the ui to indicate the step the user is at

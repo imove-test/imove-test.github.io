@@ -39,7 +39,8 @@ Templates.prototype.goTo = function (name) {
 Templates.prototype.getPathForTemplateId = function (id) {
     for (var path in this.routes) {
         if (this.routes[path] === id) {
-            return path;
+            var cleanedPath = path.replace(/^\^/, '').replace(/\$$/, '');
+            return cleanedPath;
         }
     }
 }
@@ -73,7 +74,7 @@ Templates.prototype.loadTemplatesFromDOM = function () {
 Templates.prototype.addRoutes = function (routes) {
     for (var url in routes) {
         var id = routes[url];
-        this.routes[url] = id;
+        this.routes['^' + url + '$'] = id;
     }
 }
 Templates.prototype.bootUp = function () {
@@ -90,19 +91,51 @@ Templates.prototype.installNavigationListener = function () {
 }
 Templates.prototype.onHashChange = function () {
     var hash = window.location.hash;
-    var id = this.getTemplateIdForHash(hash);
-    if (!this.templates.hasOwnProperty(id)) {
+    var idAndArgs = this.getTemplateIdAndArgsForHash(hash);
+    var id = idAndArgs.id;
+    var args = idAndArgs.args;
+    if (!id) {
         id = '404';
+        args = {};
     }
-    var template = this.templates[id];
+    var template = this.templates[id] || '';
     this.currentTemplateName = id;
     document.body.innerHTML = template.content;
     this.loadHookups();
-    this.triggerHandler('load');
+    this.triggerHandler('load', args);
 }
 Templates.prototype.getTemplateIdForHash = function (hash) {
+    var idAndArgs = this.getTemplateIdAndArgsForHash(hash);
+    if (idAndArgs) {
+        return idAndArgs.id;
+    }
+}
+Templates.prototype.getTemplateIdAndArgsForHash = function (hash) {
     var strippedHash = hash.replace(/^#!/, '') || '/';
-    return this.routes[strippedHash];
+    for (var path in this.routes) {
+        var id = this.routes[path];
+        var matches = this.pathMatches(path, strippedHash);
+        if (matches) {
+            return {
+                'id': id,
+                'args': matches
+            }
+        }
+    }
+}
+Templates.prototype.pathMatches = function (path, strippedHash) {
+    var namedBits = path.match(/({[^}]*})/g) || [];
+    var regexedPath = path.replace(/({[^}]*})/g, '([^/]*)');
+    var matches = strippedHash.match(regexedPath);
+    if (!matches) {
+        return null;
+    }
+    var namedMatches = {};
+    for (var i = 0 ; i < namedBits.length ; i++) {
+        var argName = namedBits[i].replace(/[^a-zA-Z0-9]/g, '');
+        namedMatches[argName] = matches[i+1];
+    }
+    return namedMatches;
 }
 
 function onDrag(element, handler) {
