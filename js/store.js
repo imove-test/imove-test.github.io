@@ -1,16 +1,12 @@
-
 /**
  * Checks if localStorage is supported
  * @return true if localStorage is supported
  */
-Store.supportsLocalStorage = function()
-{
-	try
-	{
+Store.supportsLocalStorage = function() {
+	try {
 		return 'localStorage' in window && window['localStorage'] !== null;
 	}
-	catch(e)
-	{
+	catch(e) {
 		return false;
 	}
 }
@@ -21,10 +17,8 @@ Store.supportsLocalStorage = function()
  * @param value Value to store
  * @return true if the value was stored without any issues
  */
-Store.setEntry = function(key, value)
-{
-	if(!Store.supportsLocalStorage())
-	{
+Store.setEntry = function(key, value) {
+	if(!Store.supportsLocalStorage()) {
 		return false;
 	}
 
@@ -37,8 +31,7 @@ Store.setEntry = function(key, value)
  * @param key Key for the value to retrieve
  * @return value paired to the key if one exists
  */
-Store.getEntry = function(key)
-{
+Store.getEntry = function(key) {
 	return localStorage[key];
 }
 
@@ -48,8 +41,7 @@ Store.getEntry = function(key)
  * @param objValue Object to convert to JSON and store
  * @return true if the value was stored without any issues
  */
-Store.setJSONEntry(key, objValue)
-{
+Store.setJSONEntry(key, objValue) {
 	return Store.setEntry(key, JSON.stringify(objValue));
 }
 
@@ -58,7 +50,6 @@ Store.setJSONEntry(key, objValue)
  * @param key Key for the value to retrieve
  * @return object parsed from the stored JSON for the key
  */
-Store.getJSONEntry = function(key)
-{
+Store.getJSONEntry = function(key) {
 	return JSON.parse(localStorage[key]);
 }
