@@ -27,11 +27,11 @@ app.controller('TestBeginController', function () {
     
 });
 
-app.controller('TestRunController', function () {
-    
-});
+app.controller('TestRunController', ['$scope', function ($scope) {
+    $scope.greeting = "Hi!";
+}]);
 
-app.controller('ResultsController', function () {
+app.controller('ResultsController', function() {
     
 });
 
