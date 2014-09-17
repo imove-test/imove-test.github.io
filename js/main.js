@@ -21,14 +21,28 @@ app.config(function ($routeProvider) {
     });
 });
 
+app.factory('tardieuOrientationDataHandler', function tardieuOrientationDataHandlerFactory() {
+    function TemporaryProxyHandler() {}
+    TemporaryProxyHandler.prototype.handleEvent = function (event) {
+        console.log(event);
+    };
+    TemporaryProxyHandler.prototype.addEventListener = function (eventName, handler) {};
+    var handler = new TemporaryProxyHandler();
+    return handler;
+});
+
 app.controller('IndexController', function () {});
 
 app.controller('TestBeginController', function () {
     
 });
 
-app.controller('TestRunController', function () {
-    
+app.controller('TestRunController', function ($scope, tardieuOrientationDataHandler) {
+    var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
+    window.addEventListener('deviceorientation', deviceOrientationHandler);
+    $scope.$on('$destroy', function () {
+        window.removeEventListener('deviceorientation', deviceOrientationHandler);
+    });
 });
 
 app.controller('ResultsController', function () {
