@@ -15,7 +15,7 @@ app.config(function ($routeProvider) {
     }).when('/results', {
         templateUrl: 'partials/results.html',
         controller: 'ResultsController'
-    }).when('/result/:id', {
+    }).when('/results/:id', {
         templateUrl: 'partials/result.html',
         controller: 'ResultController'
     });

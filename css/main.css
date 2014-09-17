@@ -1,3 +1,7 @@
+body.with-navbar-fixed-top {
+    padding-top: 60px;
+}
+
 .list-numeric {
     list-style-type: decimal;
 }
