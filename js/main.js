@@ -1,64 +1,44 @@
 'use strict';
 
-var templates = new Templates();
+var app = angular.module('imove', ['ngRoute']);
 
-templates.addRoutes({
-    '/': 'index',
-    '/test/begin': 'beginTest',
-    '/test/run': 'test',
-    '/results': 'results',
-    '/result/{id}': 'result'
+app.config(function ($routeProvider) {
+    $routeProvider.when('/', {
+        templateUrl: 'partials/index.html',
+        controller: 'IndexController'
+    }).when('/test/begin', {
+        templateUrl: 'partials/test/begin.html',
+        controller: 'TestBeginController'
+    }).when('/test/run', {
+        templateUrl: 'partials/test/run.html',
+        controller: 'TestRunController'
+    }).when('/results', {
+        templateUrl: 'partials/results.html',
+        controller: 'ResultsController'
+    }).when('/results/:id', {
+        templateUrl: 'partials/result.html',
+        controller: 'ResultController'
+    });
 });
 
-templates.on('index', (function () {
-    var handlers = {
-        load: function () {
-            var startButton = templates.hookups['startTest'];
-            startButton.addEventListener('click', startTest);
-        }, unload: function () {}
-    };
-    return handlers;
-    function startTest() {
-        templates.goTo('beginTest');
-    }
-})());
+app.controller('IndexController', function () {});
 
-templates.on('beginTest', (function () {
-    var handlers = {
-        load: function () {
-            var readiedButton = templates.hookups['doneStrappingIn'];
-            readiedButton.addEventListener('click', readied);
-        }, unload: function () {}
-    };
-    return handlers;
-    function readied() {
-        templates.goTo('test');
-    }
-})());
+app.controller('TestBeginController', function () {
+    
+});
 
-templates.on('test', (function () {
-    var handlers = {
-        load: function () {
-            // initialize the orientation event listener
-            // start pumping data into it
-            // update the ui to indicate the step the user is at
-        }, unload: function () {}
-    };
-    return handlers;
-})());
+app.controller('TestRunController', function () {
+    
+});
 
-templates.on('result', (function () {
-    var handlers = {
-        load: function (args) {
-            console.log(args);
-            // initialize the orientation event listener
-            // start pumping data into it
-            // update the ui to indicate the step the user is at
-        }, unload: function () {}
-    };
-    return handlers;
-})());
+app.controller('ResultsController', function () {
+    
+});
 
-document.addEventListener('DOMContentLoaded', function () {
-    templates.bootUp();
+app.controller('ResultController', function () {
+    
+});
+
+app.controller('ResultSendController', function () {
+    
 });
