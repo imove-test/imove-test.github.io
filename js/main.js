@@ -39,6 +39,10 @@ app.controller('TestBeginController', function () {
 
 app.controller('TestRunController', function ($scope, tardieuOrientationDataHandler) {
     var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
+    tardieuOrientationDataHandler.onTardieuStateChange(function (tardieuValues) {
+        // update the ui appropriately
+        // if values are complete, then save and push user along to results page
+    });
     window.addEventListener('deviceorientation', deviceOrientationHandler);
     $scope.$on('$destroy', function () {
         window.removeEventListener('deviceorientation', deviceOrientationHandler);
