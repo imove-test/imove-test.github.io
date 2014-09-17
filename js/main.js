@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('imove', []);
+var app = angular.module('imove', ['ngRoute']);
 
 app.config(function ($routeProvider) {
     $routeProvider.when('/', {
