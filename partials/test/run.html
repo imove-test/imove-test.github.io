@@ -1,6 +1,4 @@
 <ul class="list-numeric">
-    <li>With you elbow at 90 degrees, point up</li>
-    <li>Quickly rotate your forearm down</li>
-    <li>Done</li>
+    <li ng-repeat="step in steps" ng-class="{strikethrough: step.state == 'done'}">{{ step.text }}</li>
 </ul>
 <a href="#/results/1" class="btn btn-primary">Done</a>

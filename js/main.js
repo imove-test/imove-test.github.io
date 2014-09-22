@@ -38,6 +38,17 @@ app.controller('TestBeginController', function () {
 });
 
 app.controller('TestRunController', function ($scope, tardieuOrientationDataHandler) {
+    $scope.steps = [{
+        'text': 'With you elbow at 90 degrees, point up',
+        'state': ''
+    }, {
+        'text': 'Quickly rotate your forearm down',
+        'state': ''
+    }, {
+        'text': 'Done',
+        'state': ''
+    }];
+
     var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
     tardieuOrientationDataHandler.onTardieuStateChange(function (tardieuValues) {
         // update the ui appropriately

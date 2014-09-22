@@ -2,6 +2,10 @@ body.with-navbar-fixed-top {
     padding-top: 60px;
 }
 
+.strikethrough {
+    text-decoration: line-through;
+}
+
 .list-numeric {
     list-style-type: decimal;
 }
