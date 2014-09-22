@@ -58,9 +58,11 @@ app.controller('TestRunController', function ($scope, tardieuOrientationDataHand
     $scope.$on('$destroy', function () {
         window.removeEventListener('deviceorientation', deviceOrientationHandler);
     });
+
+    $scope.greeting = "Hi!";
 });
 
-app.controller('ResultsController', function () {
+app.controller('ResultsController', function() {
     
 });
 

@@ -1,20 +1,19 @@
 
 function DataHandler() {
-	var Gyroscope = new Array();
-	var Accelerometer =  new Array();
+	this.Gyroscope = new Array();
+	this.Accelerometer =  new Array();
 
-	var State = "Starting";
-	var test = "R1"
-	var R1;
-	var R2;
-	var StartAngle;
-	var EndAngle;
-	var eventCounterGyroscope = 0;
-	var eventCounterAccelerometer = 0;
+	this.State = "Starting";
+	this.test = "R1"
+	this.R1;
+	this.R2;
+	this.StartAngle;
+	this.EndAngle;
+	this.eventCounterGyroscope = 0;
+	this.eventCounterAccelerometer = 0;
+}
 
-
-	function HandleIncomingGyroscopeEvents(GyroscopeEvent)
-	{
+DataHandler.prototype.HandleIncomingGyroscopeEvents = function (GyroscopeEvent){
 		
 		if(State == "Starting")
 		{
@@ -29,11 +28,11 @@ function DataHandler() {
 			eventCounterGyroscope++;
 			if(eventCounterGyroscope > 10)
 			{
-				endAngle = GetAverage(Gyroscope);
+				endAngle = this.GetAverage(Gyroscope);
 				if(test == "R1")
-					R1 = CalculateR1(startAngle, endAngle);
+					R1 = this.CalculateR1(startAngle, endAngle);
 				else if (test == "R2")
-					R2 =  CalculateR2(startAngle, endAngle);
+					R2 = this.CalculateR2(startAngle, endAngle);
 					
 			}
 		}
@@ -50,10 +49,10 @@ function DataHandler() {
 				}
 			}
 		}
-	};
-	
-	function HandleIncomingAccelerometerEvents(AccelerometerEvent)
-	{
+}
+
+
+DataHandler.prototype.HandleIncomingAccelerometerEvents = function (AccelerometerEvent){
 		if(State == "Starting" && AccelerometerEvent > 0.05)
 		{
 			Accelerometer[eventCounterAccelerometer] = AccelerometerEvent;
@@ -74,25 +73,28 @@ function DataHandler() {
 					State = "Stopped";
 			}
 		}
-	};
+}
 
-	function GetAverage(someArray)
-	{
+
+	
+	
+	
+
+DataHandler.prototype.GetAverage = 	function(someArray){
 		var sum;
 		for(var i = 0; i < someArray.length; i++)
 		{
 			sum += someArray[i];
 		}
 		return sum/someArray.lenght;
-	};
+}
+
 	
-	function CalculateR1(start, end)
-	{
+DataHandler.prototype.CalculateR1 = function(start, end){
 		return start-end;
-	};
+}
+
 	
-	function CalculateR2(start, end)
-	{
+DataHandler.prototype.CalculateR2 =	function(start, end){
 		return start-end;
-	};
-};
+}
