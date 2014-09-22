@@ -49,17 +49,19 @@ app.controller('TestRunController', function ($scope, tardieuOrientationDataHand
         'state': ''
     }];
 
-    var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
-    tardieuOrientationDataHandler.onTardieuStateChange(function (tardieuValues) {
+    tardieuOrientationDataHandler.addEventListener('valueschange', function (tardieuValues) {
         // update the ui appropriately
         // if values are complete, then save and push user along to results page
     });
+
+    // connect the data handler to orientation events
+    var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
     window.addEventListener('deviceorientation', deviceOrientationHandler);
+
+    // remove the connection when the user navigated away from this page
     $scope.$on('$destroy', function () {
         window.removeEventListener('deviceorientation', deviceOrientationHandler);
     });
-
-    $scope.greeting = "Hi!";
 });
 
 app.controller('ResultsController', function() {
