@@ -68,8 +68,12 @@ app.controller('ResultsController', function() {
     
 });
 
-app.controller('ResultController', function () {
-    
+app.controller('ResultController', function ($scope) {
+
+    $scope.exportPdf = function () {
+        pdfconv();
+    }
+
 });
 
 app.controller('ResultSendController', function () {
