@@ -1,100 +1,105 @@
+'use strict';
 
 function DataHandler() {
-	this.Gyroscope = new Array();
-	this.Accelerometer =  new Array();
-
-	this.State = "Starting";
-	this.test = "R1"
-	this.R1;
-	this.R2;
-	this.StartAngle;
-	this.EndAngle;
-	this.eventCounterGyroscope = 0;
-	this.eventCounterAccelerometer = 0;
+    this.state = "Starting";
+    this.test = "R1";
+    this.r1;
+    this.r2;
+    this.startAngle;
+    this.endAngle;
+    this.eventCounterGyroscope = 0;
+    this.eventCounterAccelerometer = 0;
+    this.gyroscope = new Array();
+    this.accelerometer = new Array();
+    this.startACC;
+    this.eventHandlers = {
+        'valueschange': []
+    };
 }
 
-DataHandler.prototype.HandleIncomingGyroscopeEvents = function (GyroscopeEvent){
-		
-		if(State == "Starting")
-		{
-			if(GyroscopeEvent  > 89.5 && GyroscopeEvent < 90.5 && Gyroscope.length <= 10)
-			{
-				Gyroscope[eventCounterGyroscope] = GyroscopeEvent;
+DataHandler.prototype.handleOrientationEvents = function (event) {
+    var initialState = this.state;
+    var x = event.beta;  // In degree in the range [-180,180]
+    var y = event.gamma; // In degree in the range [-90,90]
+    var z = event.alpha;
+
+    var counter = 0;
+
+	if (this.state == "Starting") {
+	    if (z > 88 && z < 92) {
+	        this.startAngle = z;
+	        this.state = "Ready";
+		}
+	} else if (this.state == "Ready") {
+	    if (z < 88) {
+	        this.state = "Starting";
+	        this.r1 = -1;
+	    }
+	} else if (this.state == "Stopped") {
+	    this.endAngle = z;
+		if (this.test == "R1") {
+			this.r1 = this.calculateR1(startAngle, endAngle);
+        } else if (this.Test == "R2") {
+			this.r2 = this.calculateR2(startAngle, endAngle);
+        }
+	} else {
+		if (z > 89.5 && z < 90.5) {
+		    this.gyroscope[this.eventCounterGyroscope] = x;
+		    if (this.eventCounterGyroscope > 10) {
+		        this.state = "Starting";
+		        this.test = "R2";
+		        this.eventCounterGyroscope = 0;
 			}
 		}
-		else if(State =="Stopped")
-		{
-			Gyroscope[eventCounterGyroscope] = GyroscopeEvent;
-			eventCounterGyroscope++;
-			if(eventCounterGyroscope > 10)
-			{
-				endAngle = this.GetAverage(Gyroscope);
-				if(test == "R1")
-					R1 = this.CalculateR1(startAngle, endAngle);
-				else if (test == "R2")
-					R2 = this.CalculateR2(startAngle, endAngle);
-					
-			}
-		}
-		else
-		{
-			if(GyroscopeEvent  > 89.5 && GyroscopeEvent < 90.5)
-			{
-				Gyroscope[eventCounterGyroscope] = GyroscopeEvent;
-				if(eventCounterGyroscope > 10)
-				{
-					state = "Starting"
-					test = "R2"
-					eventCounterGyroscope = 0;
-				}
-			}
-		}
+	}
+
+    this.sendEvent('valueschange', {
+        'state': this.state,
+        'orientation': {
+            x: parseInt(x),
+            y: parseInt(y),
+            z: parseInt(z)
+        },
+        'r1': this.r1,
+        'r2': this.r2,
+    });
 }
 
-
-DataHandler.prototype.HandleIncomingAccelerometerEvents = function (AccelerometerEvent){
-		if(State == "Starting" && AccelerometerEvent > 0.05)
-		{
-			Accelerometer[eventCounterAccelerometer] = AccelerometerEvent;
-			eventCounterAccelerometer++;
-			if(Accelerometer.length > 10)
-			{
-				State = "Moving";
-				eventCounterAccelerometer = 0;
-				StartAngle = GetAverage(Gyroscope);
-			}
-		}
-		else if(State == "Moving")
-		{
-			if(AccelerometerEvent < 0.05)
-			{
-				Accelerometer[eventCounterAccelerometer] = AccelerometerEvent
-				if(Accelerometer.length > 10)
-					State = "Stopped";
-			}
-		}
+DataHandler.prototype.addEventListener = function (name, callback) {
+    this.eventHandlers[name].push(callback);
 }
 
-
-	
-	
-	
-
-DataHandler.prototype.GetAverage = 	function(someArray){
-		var sum;
-		for(var i = 0; i < someArray.length; i++)
-		{
-			sum += someArray[i];
-		}
-		return sum/someArray.lenght;
+DataHandler.prototype.removeEventListener = function (name, callback) {
+    var list = this.eventHandlers[name];
+    var index = list.indexOf(callback);
+    if (index >= 0) {
+        list.splice(index, 1);
+    }
 }
 
-	
-DataHandler.prototype.CalculateR1 = function(start, end){
-		return start-end;
+DataHandler.prototype.sendEvent = function (name, data) {
+    var handlers = this.eventHandlers[name];
+    if (!handlers) {
+        return;
+    }
+    for (var i = 0 ; i < handlers.length ; i++) {
+        var handler = handlers[i];
+        handler(data);
+    }
 }
 
-	
-DataHandler.prototype.CalculateR2 =	function(start, end){
-		return start-end;
+DataHandler.prototype.calculateR1 = function (start, end) {
+    return start - end;
+}
+
+DataHandler.prototype.calculateR2 =	function (start, end) {
+    return start - end;
+}
+
+DataHandler.prototype.returnR1 = function () {
+    return this.r1;
+}
+
+DataHandler.prototype.returnR2 = function () {
+    return this.r2;
 }

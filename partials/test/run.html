@@ -1,9 +1,5 @@
 <ul class="list-numeric">
     <li ng-repeat="step in steps" ng-class="{strikethrough: step.state == 'done'}">{{ step.text }}</li>
 </ul>
-
-<div ng-controller='TestRunController'>
-    {{greeting}}
-</div>
-
+<p>{{ data.values }}</p>
 <a href="#/results/1" class="btn btn-primary">Done</a>

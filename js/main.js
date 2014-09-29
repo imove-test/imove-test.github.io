@@ -21,16 +21,9 @@ app.config(function ($routeProvider) {
     });
 });
 
-app.factory('DataHandler', (function () {
-    function DataHandlerFactory() {
-    function TemporaryProxyHandler() {}
-    TemporaryProxyHandler.prototype.handleEvent = function (event) {
-        console.log(event);
-    };
-    TemporaryProxyHandler.prototype.addEventListener = function (eventName, handler) {};
-    var handler = new TemporaryProxyHandler();
-    return handler;
-}}());
+app.factory('DataHandler', function () {
+    return DataHandler;
+});
 
 app.controller('IndexController', function () {});
 
@@ -39,7 +32,9 @@ app.controller('TestBeginController', function () {
 });
 
 app.controller('TestRunController', function ($scope, DataHandler) {
-    var dataHandler = new DataHandler();
+    $scope.data = {
+        values: {}
+    };
     $scope.steps = [{
         'text': 'With you elbow at 90 degrees, point up',
         'state': ''
@@ -51,23 +46,25 @@ app.controller('TestRunController', function ($scope, DataHandler) {
         'state': ''
     }];
 
-    tardieuOrientationDataHandler.addEventListener('valueschange', function (tardieuValues) {
+    var dataHandler = new DataHandler();
+
+    var onValuesChange = function (values) {
         // update the ui appropriately
         // if values are complete, then save and push user along to results page
-    });
+        $scope.$apply(function () {
+            $scope.data.values = values;
+        });
+    };
 
-    // connect the data handler to orientation events
-    var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
-    window.addEventListener('deviceorientation', dataHandler.HandleIncomingGyroscopeEvents, true);
-    if (window.DeviceMotionEvent) {
-        console.log("DeviceMotion");
-        window.addEventListener('devicemotion', dataHandler.HandleIncomingAccelerometerEvents, false);
-    }
+    // connect the data handler to orientation events, and data handler events to controller
+    var handler = dataHandler.handleOrientationEvents.bind(dataHandler);
+    window.addEventListener('deviceorientation', handler, true);
+    dataHandler.addEventListener('valueschange', onValuesChange);
 
-
-    // remove the connection when the user navigated away from this page
+    // remove the connections when the user navigated away from this page
     $scope.$on('$destroy', function () {
-        window.removeEventListener('deviceorientation', deviceOrientationHandler);
+        window.removeEventListener('deviceorientation', handler);
+        dataHandler.removeEventListener('valueschange', onValuesChange);
     });
 });
 
