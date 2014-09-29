@@ -38,6 +38,7 @@ app.controller('TestBeginController', function () {
 });
 
 app.controller('TestRunController', function ($scope, tardieuOrientationDataHandler) {
+    var dataHandler = new DataHandler("Starting");
     $scope.steps = [{
         'text': 'With you elbow at 90 degrees, point up',
         'state': ''
@@ -56,7 +57,13 @@ app.controller('TestRunController', function ($scope, tardieuOrientationDataHand
 
     // connect the data handler to orientation events
     var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
-    window.addEventListener('deviceorientation', deviceOrientationHandler);
+    window.addEventListener('deviceorientation', dataHandler.HandleIncomingGyroscopeEvents, true);
+    if (window.DeviceMotionEvent)
+    {
+        console.log("DeviceMotion");
+        window.addEventListener('devicemotion', dataHandler.HandleIncomingAccelerometerEvents, false);
+    }
+
 
     // remove the connection when the user navigated away from this page
     $scope.$on('$destroy', function () {
