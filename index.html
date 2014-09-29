@@ -1,35 +1,29 @@
-<head>
+﻿<head>
     <title>iMove</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/js/core.js"></script>
+    <script type="text/javascript" src="/js/angular.js"></script>
+    <script type="text/javascript" src="/js/angular-route.js"></script>
+    <script type="text/javascript" src="/js/data-handler.js"></script>
+    <script type="text/javascript" src="/js/store.js"></script>
+    <script type="text/javascript" src="/js/jspdf.js"></script>
+    <script type="text/javascript" src="/js/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="/js/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="/js/pdf-convert.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/DataHandler.js"></script>
 </head>
-<body>
+<body ng-app="imove" class="with-navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">iMove</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <ng-view></ng-view>
+    </div>
 </body>
-<script type="text/html" id="index">
-<div class="text-center">
-    <h1>iMove</h1>
-    <p id="slogan">Test your arm mobility.</p>
-    <button id="startTest">Start test</button>
-</div>
-</script>
-<script type="text/html" id="beginTest">
-<p>Strap your phone to your arm</p>
-<button id="doneStrappingIn">Okay</button>
-</script>
-<script type="text/html" id="test">
-<ul class="list-numeric">
-    <li>With you elbow at 90 degrees, point up</li>
-    <li>Quickly rotate your forearm down</li>
-    <li>Done</li>
-</ul>
-</script>
-<script type="text/html" id="result">
-You passed!
-</script>
-<script type="text/html" id="404">
-<h2>404 Not Found</h2>
-<a href="#!/">Go home</a>
-</script>
 </html>
