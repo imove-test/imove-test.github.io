@@ -21,7 +21,8 @@ app.config(function ($routeProvider) {
     });
 });
 
-app.factory('tardieuOrientationDataHandler', function tardieuOrientationDataHandlerFactory() {
+app.factory('DataHandler', (function () {
+    function DataHandlerFactory() {
     function TemporaryProxyHandler() {}
     TemporaryProxyHandler.prototype.handleEvent = function (event) {
         console.log(event);
@@ -29,7 +30,7 @@ app.factory('tardieuOrientationDataHandler', function tardieuOrientationDataHand
     TemporaryProxyHandler.prototype.addEventListener = function (eventName, handler) {};
     var handler = new TemporaryProxyHandler();
     return handler;
-});
+}}());
 
 app.controller('IndexController', function () {});
 
@@ -37,8 +38,8 @@ app.controller('TestBeginController', function () {
     
 });
 
-app.controller('TestRunController', function ($scope, tardieuOrientationDataHandler) {
-    var dataHandler = new DataHandler("Starting");
+app.controller('TestRunController', function ($scope, DataHandler) {
+    var dataHandler = new DataHandler();
     $scope.steps = [{
         'text': 'With you elbow at 90 degrees, point up',
         'state': ''
@@ -58,8 +59,7 @@ app.controller('TestRunController', function ($scope, tardieuOrientationDataHand
     // connect the data handler to orientation events
     var deviceOrientationHandler = tardieuOrientationDataHandler.handleEvent.bind(tardieuOrientationDataHandler);
     window.addEventListener('deviceorientation', dataHandler.HandleIncomingGyroscopeEvents, true);
-    if (window.DeviceMotionEvent)
-    {
+    if (window.DeviceMotionEvent) {
         console.log("DeviceMotion");
         window.addEventListener('devicemotion', dataHandler.HandleIncomingAccelerometerEvents, false);
     }
