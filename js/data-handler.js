@@ -27,21 +27,18 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
 
 	if (this.state == "Starting") {
 	    if (x > 88 && x < 92) {
-	        this.startAngle = z;
+	        this.startAngle = x;
 	        this.state = "Ready";
 		}
 	} else if (this.state == "Ready") {
-	    if (x < 88) {
-	        this.state = "Starting";
-	    }
 	} else if (this.state == "Stopped") {
-	    this.endAngle = z;
+	    this.endAngle = x;
 	    if (this.test == "R1") {
-	        this.r1 = this.calculateR1(startAngle, endAngle);
+	        this.r1 = this.calculateR1(this.startAngle, this.endAngle);
 	        this.test = "R2";
 	        this.state = "Starting";
 	    } else if (this.test == "R2") {
-	        this.r2 = this.calculateR2(startAngle, endAngle);
+	        this.r2 = this.calculateR2(this.startAngle, this.endAngle);
 	        this.state = "Done";
 	    }
 	}
@@ -61,13 +58,11 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
 
 DataHandler.prototype.handleAccelerationEvents = function (event) {
     var acceleration = event.acceleration;
-    this.startACC = acceleration.x;
-    if(acceleration.x > 0.05)
-    {
+    this.startACC = acceleration.z;
+    if (this.state == "Ready" && acceleration.z > 1) {
         this.state = "Moving";
     }
-    else if(this.state == "Moving" && acceleration.x < 0.01)
-    {
+    if (this.state == "Moving" && acceleration.z < 0.2) {
         this.state = "Stopped";
     }
 }
@@ -95,12 +90,8 @@ DataHandler.prototype.sendEvent = function (name, data) {
     }
 }
 
-DataHandler.prototype.calculateR1 = function (start, end) {
-    return start - end;
-}
-
-DataHandler.prototype.calculateR2 =	function (start, end) {
-    return start - end;
+DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function (start, end) {
+    return Math.abs(start - end);
 }
 
 DataHandler.prototype.returnR1 = function () {
