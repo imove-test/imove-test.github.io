@@ -68,8 +68,19 @@ app.controller('TestRunController', function ($scope, DataHandler) {
     });
 });
 
-app.controller('ResultsController', function() {
-    
+app.controller('ResultsController', function ($scope) {
+  //  $scope.results = getResults();
+    $scope.results = [{
+        id: 1,
+        date: "asd 12, 2014",
+        r1: 10
+    }, {
+        id: 2,
+        date: "gfdg 12, 2014",
+        r1: 200
+    }];
+
+
 });
 
 app.controller('ResultController', function ($scope) {
