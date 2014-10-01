@@ -1,71 +1,90 @@
 var Store = (function () {
+ 
+	// Instance stores a reference to the Singleton
+	var instance;
 
-    function Store() {
+	function initialize() {
 
-    }
-    
-    if (Store.prototype.instance) {
-        return Store.prototype.instance;
-    }
+		// Singleton
 
-    /**
-     * Checks if localStorage is supported
-     * @return true if localStorage is supported
-     */
-    Store.prototype.supportsLocalStorage = function () {
-        try {
-            return 'localStorage' in window && window['localStorage'] !== null;
-        }
-        catch(e) {
-            return false;
-        }
-    }
+		return {
+		
+			/**
+			 * Checks if localStorage is supported
+			 * @return true if localStorage is supported
+			 */
+			supportsLocalStorage: function() {
+				try {
+					return 'localStorage' in window && window['localStorage'] !== null;
+				}
+				catch(e) {
+					return false;
+				}
+			},
 
-    /**
-     * Places a key-value pair in localStorage
-     * @param key Key paired to the value
-     * @param value Value to store
-     * @return true if the value was stored without any issues
-     */
-    Store.prototype.setEntry = function (key, value) {
-        if (!Store.supportsLocalStorage()) {
-            return false;
-        }
+			/**
+			 * Places a key-value pair in localStorage
+			 * @param key Key paired to the value
+			 * @param value Value to store
+			 * @return true if the value was stored without any issues
+			 */
+			setEntry: function(key, value) {
+				if(!instance.supportsLocalStorage()) {
+					return false;
+				}
 
-        localStorage[key] = value;
-        return true;
-    }
+				localStorage[key] = value;
+				return true;
+			},
 
-    /**
-     * Accesses a value in localStorage
-     * @param key Key for the value to retrieve
-     * @return value paired to the key if one exists
-     */
-    Store.prototype.getEntry = function (key) {
-        return localStorage[key];
-    }
+			/**
+			 * Accesses a value in localStorage
+			 * @param key Key for the value to retrieve
+			 * @return value paired to the key if one exists
+			 */
+			getEntry: function(key) {
+				return localStorage[key];
+			},
 
-    /**
-     * Places a key-object pair in localStorage using JSON
-     * @param key Key paired to the value
-     * @param objValue Object to convert to JSON and store
-     * @return true if the value was stored without any issues
-     */
-    Store.prototype.setJSONEntry = function (key, objValue) {
-        return Store.setEntry(key, JSON.stringify(objValue));
-    }
+			/**
+			 * Places a key-object pair in localStorage using JSON
+			 * @param key Key paired to the value
+			 * @param objValue Object to convert to JSON and store
+			 * @return true if the value was stored without any issues
+			 */
+			setJSONEntry: function(key, objValue) {
+				if(!instance.supportsLocalStorage()) {
+					return false;
+				}
 
-    /**
-     * Accesses a JSON object in localStorage
-     * @param key Key for the value to retrieve
-     * @return object parsed from the stored JSON for the key
-     */
-    Store.prototype.getJSONEntry = function (key) {
-        return JSON.parse(localStorage[key]);
-    }
+				localStorage[key] = JSON.stringify(objValue);
+				return true;
+			},
 
-
-    var instance = new Store();
-    Store.prototype.instance = instance;
-    return instance;
+			/**
+			 * Accesses a JSON object in localStorage
+			 * @param key Key for the value to retrieve
+			 * @return object parsed from the stored JSON for the key
+			 */
+			getJSONEntry: function(key) {
+				try {
+					return JSON.parse(localStorage[key]);
+				}
+				catch(e) {
+					return null;
+				}
+			},
+		};
+	};
+ 
+	return {
+		getInstance: function () {
+			if(!instance) {
+				instance = initialize();
+			}
+			
+			return instance;
+		}
+	};
+ 
 })();
