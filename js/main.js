@@ -58,7 +58,9 @@ app.controller('TestRunController', function ($scope, DataHandler) {
 
     // connect the data handler to orientation events, and data handler events to controller
     var handler = dataHandler.handleOrientationEvents.bind(dataHandler);
+    var acchandler = dataHandler.handleAccelerationEvents.bind(dataHandler);
     window.addEventListener('deviceorientation', handler, true);
+    window.addEventListener('devicemotion', acchandler, true);
     dataHandler.addEventListener('valueschange', onValuesChange);
 
     // remove the connections when the user navigated away from this page

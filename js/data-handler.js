@@ -26,31 +26,21 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
     var counter = 0;
 
 	if (this.state == "Starting") {
-	    if (z > 88 && z < 92) {
-	        this.startAngle = z;
+	    if (x > 88 && x < 92) {
+	        this.startAngle = x;
 	        this.state = "Ready";
 		}
 	} else if (this.state == "Ready") {
-	    if (z < 88) {
-	        this.state = "Starting";
-	        this.r1 = -1;
-	    }
 	} else if (this.state == "Stopped") {
-	    this.endAngle = z;
-		if (this.test == "R1") {
-			this.r1 = this.calculateR1(startAngle, endAngle);
-        } else if (this.Test == "R2") {
-			this.r2 = this.calculateR2(startAngle, endAngle);
-        }
-	} else {
-		if (z > 89.5 && z < 90.5) {
-		    this.gyroscope[this.eventCounterGyroscope] = x;
-		    if (this.eventCounterGyroscope > 10) {
-		        this.state = "Starting";
-		        this.test = "R2";
-		        this.eventCounterGyroscope = 0;
-			}
-		}
+	    this.endAngle = x;
+	    if (this.test == "R1") {
+	        this.r1 = this.calculateR1(this.startAngle, this.endAngle);
+	        this.test = "R2";
+	        this.state = "Starting";
+	    } else if (this.test == "R2") {
+	        this.r2 = this.calculateR2(this.startAngle, this.endAngle);
+	        this.state = "Done";
+	    }
 	}
 
     this.sendEvent('valueschange', {
@@ -62,7 +52,19 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         },
         'r1': this.r1,
         'r2': this.r2,
+        'a': this.startACC,
     });
+}
+
+DataHandler.prototype.handleAccelerationEvents = function (event) {
+    var acceleration = event.acceleration;
+    this.startACC = acceleration.z;
+    if (this.state == "Ready" && acceleration.z > 1) {
+        this.state = "Moving";
+    }
+    if (this.state == "Moving" && acceleration.z < 0.2) {
+        this.state = "Stopped";
+    }
 }
 
 DataHandler.prototype.addEventListener = function (name, callback) {
@@ -88,12 +90,8 @@ DataHandler.prototype.sendEvent = function (name, data) {
     }
 }
 
-DataHandler.prototype.calculateR1 = function (start, end) {
-    return start - end;
-}
-
-DataHandler.prototype.calculateR2 =	function (start, end) {
-    return start - end;
+DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function (start, end) {
+    return Math.abs(start - end);
 }
 
 DataHandler.prototype.returnR1 = function () {
