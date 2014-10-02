@@ -74,6 +74,20 @@ var Store = (function () {
 					return null;
 				}
 			},
+			
+			/**
+			 * Gets all the entries in local storage
+			 * @return array of entries containing all objects
+			 */
+			getAllEntries: function() {
+				entries = new Array();
+				
+				for(var i = 0; i < localStorage.length; i++) {
+					entries[i] = localStorage.getItem(localStorage.key(i));
+				}
+				
+				return entries;
+			}
 		};
 	};
  
