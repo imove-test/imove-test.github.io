@@ -1,3 +1,5 @@
+'use strict';
+
 var Store = (function () {
  
 	// Instance stores a reference to the Singleton
@@ -80,7 +82,7 @@ var Store = (function () {
 			 * @return array of entries containing all objects
 			 */
 			getAllEntries: function() {
-				entries = new Array();
+				var entries = new Array();
 				
 				for(var i = 0; i < localStorage.length; i++) {
 					entries[i] = localStorage.getItem(localStorage.key(i));
