@@ -85,7 +85,7 @@ var Store = (function () {
 				var entries = new Array();
 				
 				for(var i = 0; i < localStorage.length; i++) {
-					entries[i] = localStorage.getItem(localStorage.key(i));
+					entries[i] = JSON.parse(localStorage.getItem(localStorage.key(i)));
 				}
 				
 				return entries;
