@@ -2,7 +2,7 @@
 
 var app = angular.module('imove', ['ngRoute']);
 
-app.config(function($routeProvider) {
+app.config(function ($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: 'partials/index.html',
         controller: 'IndexController'
@@ -21,17 +21,17 @@ app.config(function($routeProvider) {
     });
 });
 
-app.factory('DataHandler', function() {
+app.factory('DataHandler', function () {
     return DataHandler;
 });
 
-app.controller('IndexController', function() {});
+app.controller('IndexController', function () {});
 
-app.controller('TestBeginController', function() {
+app.controller('TestBeginController', function () {
 
 });
 
-app.controller('TestRunController', function($scope, DataHandler, $location) {
+app.controller('TestRunController', function ($scope, DataHandler, $location) {
     $scope.percent = 0;
     $scope.data = {
         values: {}
@@ -49,22 +49,22 @@ app.controller('TestRunController', function($scope, DataHandler, $location) {
 
     var dataHandler = new DataHandler();
 
-    var onValuesChange = function(values) {
+    var onValuesChange = function (values) {
         // update the ui appropriately
         // if values are complete, then save and push user along to results page
-        $scope.$apply(function() {
+        $scope.$apply(function () {
             $scope.data.values = values;
         });
     };
 
-    var onStateChange = function() {
+    var onStateChange = function () {
         // update status bar when new a new step has been completed
-        $scope.$apply(function() {
+        $scope.$apply(function () {
             $scope.percent = (($scope.data.values.eventStack.length + 1) / 4) * 100;
         });
     }
 
-    var finishTest = function(values) {
+    var finishTest = function (values) {
         // store test results
         // navigate to results page
         Store.getInstance().setJSONEntry(values.keyID, values);
@@ -81,7 +81,7 @@ app.controller('TestRunController', function($scope, DataHandler, $location) {
     dataHandler.addEventListener('finishtest', finishTest);
 
     // remove the connections when the user navigated away from this page
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
         window.removeEventListener('deviceorientation', handler);
         dataHandler.removeEventListener('valueschange', onValuesChange);
         dataHandler.removeEventListener('statechange', onStateChange);
@@ -89,13 +89,13 @@ app.controller('TestRunController', function($scope, DataHandler, $location) {
     });
 });
 
-app.controller('ResultsController', function($scope) {
+app.controller('ResultsController', function ($scope) {
 
     $scope.results = Store.getInstance().getAllEntries();
     
 });
 
-app.controller('ResultController', function($scope) {
+app.controller('ResultController', function ($scope) {
 
     $scope.exportPdf = function() {
         pdfconv();
@@ -103,6 +103,6 @@ app.controller('ResultController', function($scope) {
 
 });
 
-app.controller('ResultSendController', function() {
+app.controller('ResultSendController', function () {
 
 });

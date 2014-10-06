@@ -121,7 +121,7 @@ DataHandler.prototype.sendEvent = function (name, data) {
     }
 }
 
-DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function(start, end) {
+DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function (start, end) {
     return Math.abs(start - end);
 }
 
