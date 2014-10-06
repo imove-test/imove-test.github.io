@@ -97,7 +97,7 @@ app.controller('ResultsController', function ($scope) {
 
 app.controller('ResultController', function ($scope) {
 
-    $scope.exportPdf = function() {
+    $scope.exportPdf = function () {
         pdfconv();
     }
 
