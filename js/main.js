@@ -28,10 +28,11 @@ app.factory('DataHandler', function () {
 app.controller('IndexController', function () {});
 
 app.controller('TestBeginController', function () {
-    
+
 });
 
-app.controller('TestRunController', function ($scope, DataHandler) {
+app.controller('TestRunController', function ($scope, DataHandler, $location) {
+    $scope.percent = 0;
     $scope.data = {
         values: {}
     };
@@ -56,31 +57,42 @@ app.controller('TestRunController', function ($scope, DataHandler) {
         });
     };
 
+    var onStateChange = function () {
+        // update status bar when new a new step has been completed
+        $scope.$apply(function () {
+            $scope.percent = (($scope.data.values.eventStack.length + 1) / 4) * 100;
+        });
+    }
+
+    var finishTest = function (values) {
+        // store test results
+        // navigate to results page
+        Store.getInstance().setJSONEntry(values.keyID, values);
+        $location.url('results/');
+    }
+
     // connect the data handler to orientation events, and data handler events to controller
     var handler = dataHandler.handleOrientationEvents.bind(dataHandler);
     var acchandler = dataHandler.handleAccelerationEvents.bind(dataHandler);
     window.addEventListener('deviceorientation', handler, true);
     window.addEventListener('devicemotion', acchandler, true);
     dataHandler.addEventListener('valueschange', onValuesChange);
+    dataHandler.addEventListener('statechange', onStateChange);
+    dataHandler.addEventListener('finishtest', finishTest);
 
     // remove the connections when the user navigated away from this page
     $scope.$on('$destroy', function () {
         window.removeEventListener('deviceorientation', handler);
         dataHandler.removeEventListener('valueschange', onValuesChange);
+        dataHandler.removeEventListener('statechange', onStateChange);
+        dataHandler.removeEventListener('finishtest', finishTest);
     });
 });
 
 app.controller('ResultsController', function ($scope) {
-    //$scope.results = Storage.getResults();
-    $scope.results = [{
-        id: 1,
-        date: "asd 12, 2014",
-        r1: 10
-    }, {
-        id: 2,
-        date: "gfdg 12, 2014",
-        r1: 200
-    }];
+
+    $scope.results = Store.getInstance().getAllEntries();
+    
 });
 
 app.controller('ResultController', function ($scope) {
@@ -92,5 +104,5 @@ app.controller('ResultController', function ($scope) {
 });
 
 app.controller('ResultSendController', function () {
-    
+
 });

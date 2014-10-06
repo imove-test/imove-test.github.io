@@ -1,14 +1,15 @@
 <h2>Results</h2>
+<p id="err"></p>
 <table class="table">
     <thead>
         <tr>
-            <th>Date</th>
+            <th>ID</th>
             <th>Value</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="result in results">
-            <td><a href="#/results/{{ result.id }}">{{ result.date }}</a></td>
+            <td><a href="#/results/{{ result.keyID }}">{{ result.keyID }}</a></td>
             <td>{{ result.r1 }}</td>
         </tr>
     </tbody>
