@@ -68,7 +68,7 @@ app.controller('TestRunController', function($scope, DataHandler, $location) {
         // store test results
         // navigate to results page
         Store.getInstance().setJSONEntry(values.keyID, values);
-        $location.url('results/1');
+        $location.url('results/');
     }
 
     // connect the data handler to orientation events, and data handler events to controller

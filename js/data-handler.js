@@ -21,7 +21,7 @@ function DataHandler() {
     this.eventStack = [];
 }
 
-DataHandler.prototype.handleOrientationEvents = function(event) {
+DataHandler.prototype.handleOrientationEvents = function (event) {
     var initialState = this.state;
     var x = event.beta; // In degree in the range [-180,180]
     var y = event.gamma; // In degree in the range [-90,90]
@@ -87,7 +87,7 @@ DataHandler.prototype.handleOrientationEvents = function(event) {
     });
 }
 
-DataHandler.prototype.handleAccelerationEvents = function(event) {
+DataHandler.prototype.handleAccelerationEvents = function (event) {
     var acceleration = event.acceleration;
     this.startACC = acceleration.z;
     if (this.state == "Ready" && acceleration.z > 1) {
@@ -98,11 +98,11 @@ DataHandler.prototype.handleAccelerationEvents = function(event) {
     }
 }
 
-DataHandler.prototype.addEventListener = function(name, callback) {
+DataHandler.prototype.addEventListener = function (name, callback) {
     this.eventHandlers[name].push(callback);
 }
 
-DataHandler.prototype.removeEventListener = function(name, callback) {
+DataHandler.prototype.removeEventListener = function (name, callback) {
     var list = this.eventHandlers[name];
     var index = list.indexOf(callback);
     if (index >= 0) {
@@ -110,7 +110,7 @@ DataHandler.prototype.removeEventListener = function(name, callback) {
     }
 }
 
-DataHandler.prototype.sendEvent = function(name, data) {
+DataHandler.prototype.sendEvent = function (name, data) {
     var handlers = this.eventHandlers[name];
     if (!handlers) {
         return;
@@ -125,14 +125,14 @@ DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function
     return Math.abs(start - end);
 }
 
-DataHandler.prototype.returnR1 = function() {
+DataHandler.prototype.returnR1 = function () {
     return this.r1;
 }
 
-DataHandler.prototype.returnR2 = function() {
+DataHandler.prototype.returnR2 = function () {
     return this.r2;
 }
 
-DataHandler.prototype.getState = function() {
+DataHandler.prototype.getState = function () {
     return this.state;
 }
