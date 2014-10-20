@@ -32,15 +32,23 @@ app.controller('TestBeginController', function () {
 });
 
 app.controller('TestRunController', function ($scope, DataHandler, $location) {
+    var stateCount = 0;
     $scope.percent = 0;
     $scope.data = {
         values: {}
     };
+
     $scope.steps = [{
-        'text': 'With you elbow at 90 degrees, point up',
+        'text': 'Move (appendage) to resting position.',
+        'state': 'Current'
+    }, {
+        'text': 'Quickly rotate your (appendage) down as far as possible',
         'state': ''
     }, {
-        'text': 'Quickly rotate your forearm down',
+        'text': 'Move (appendage) to resting position',
+        'state': ''
+    }, {
+        'text': 'Slowly rotate your (appendage) down as far as possible',
         'state': ''
     }, {
         'text': 'Done',
@@ -62,6 +70,9 @@ app.controller('TestRunController', function ($scope, DataHandler, $location) {
         $scope.$apply(function () {
             $scope.percent = (($scope.data.values.eventStack.length + 1) / 4) * 100;
         });
+        $scope.steps[stateCount]['state'] = 'Done';
+        stateCount++;
+        $scope.steps[stateCount]['state'] = 'Current'
     }
 
     var finishTest = function (values) {
