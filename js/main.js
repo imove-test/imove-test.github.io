@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('imove', ['ngRoute']);
+var app = angular.module('imove', ['ngRoute', 'angular.directives-round-progress']);
 
 app.config(function ($routeProvider) {
     $routeProvider.when('/', {
@@ -36,6 +36,11 @@ app.controller('TestRunController', function ($scope, DataHandler, $location) {
     $scope.percent = 0;
     $scope.data = {
         values: {}
+    };
+
+    $scope.fakeData = {
+        label: 'good',
+        percentage: .25
     };
 
     $scope.steps = [{
