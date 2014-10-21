@@ -1,3 +1,7 @@
+body {
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
 body.with-navbar-fixed-top {
     padding-top: 60px;
 }
@@ -6,6 +10,23 @@ body.with-navbar-fixed-top {
     text-decoration: line-through;
 }
 
-.list-numeric {
-    list-style-type: decimal;
+#measureDiv {
+    text-align: center;
+    margin-top: 3%;
 }
+
+#midSpacing {
+    height:25%;
+}
+
+#botCont {
+    text-align: center;
+}
+
+#stateLabel {
+    height: 12%;
+    font-size: 15px;
+    color: #7A7A7A;
+    font-weight: bold;
+}
+
