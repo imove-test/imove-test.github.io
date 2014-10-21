@@ -10,27 +10,23 @@ body.with-navbar-fixed-top {
     text-decoration: line-through;
 }
 
-.list-numeric {
-    list-style-type: decimal;
+#measureDiv {
+    text-align: center;
+    margin-top: 3%;
 }
 
-#measureDiv {
-    height: 50%;
+#midSpacing {
+    height:25%;
 }
-#strapDiv {
-    height: 100px;
-    max-width: 100%;
-    border-top: solid gray 1px;
-    border-bottom: solid gray 1px;
-    text-align: center;
-}
-#strapText {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 100px;
-}
-#measureDiv {
+
+#botCont {
     text-align: center;
 }
 
+#stateLabel {
+    height: 12%;
+    font-size: 15px;
+    color: #7A7A7A;
+    font-weight: bold;
+}
 

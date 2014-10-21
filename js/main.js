@@ -38,9 +38,9 @@ app.controller('TestRunController', function ($scope, DataHandler, $location) {
         values: {}
     };
 
-    $scope.fakeData = {
-        label: 'good',
-        percentage: .25
+    $scope.progressWheel = {
+        label: '',
+        percentage: 0
     };
 
     $scope.steps = [{
@@ -67,6 +67,12 @@ app.controller('TestRunController', function ($scope, DataHandler, $location) {
         // if values are complete, then save and push user along to results page
         $scope.$apply(function () {
             $scope.data.values = values;
+            if($scope.data.values.orientation.x >= 0) {
+                $scope.progressWheel = {
+                    label: $scope.data.values.orientation.x,
+                    percentage: $scope.data.values.orientation.x/100
+              }
+            }
         });
     };
 

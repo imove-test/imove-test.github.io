@@ -9,8 +9,8 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
     if (templateElement.length === 1) {
       var node = templateElement[0];
 
-      var width = node.getAttribute('data-round-progress-width') || '400';
-      var height = node.getAttribute('data-round-progress-height') || '400';
+      var width = node.getAttribute('data-round-progress-width') || '200';
+      var height = node.getAttribute('data-round-progress-height') || '200';
 
       var canvas = document.createElement('canvas');
       canvas.setAttribute('width', width);
@@ -22,15 +22,15 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
       var outerCircleWidth = node.getAttribute('data-round-progress-outer-circle-width') || '20';
       var innerCircleWidth = node.getAttribute('data-round-progress-inner-circle-width') || '5';
 
-      var outerCircleBackgroundColor = node.getAttribute('data-round-progress-outer-circle-background-color') || '#505769';
-      var outerCircleForegroundColor = node.getAttribute('data-round-progress-outer-circle-foreground-color') || '#12eeb9';
-      var innerCircleColor = node.getAttribute('data-round-progress-inner-circle-color') || '#505769';
-      var labelColor = node.getAttribute('data-round-progress-label-color') || '#12eeb9';
+      var outerCircleBackgroundColor = node.getAttribute('data-round-progress-outer-circle-background-color') || '#A9A9A9';
+      var outerCircleForegroundColor = node.getAttribute('data-round-progress-outer-circle-foreground-color') || '#56B556';
+      var innerCircleColor = node.getAttribute('data-round-progress-inner-circle-color') || '#FFFFFF';
+      var labelColor = node.getAttribute('data-round-progress-label-color') || '#56B556';
 
-      var outerCircleRadius = node.getAttribute('data-round-progress-outer-circle-radius') || '100';
-      var innerCircleRadius = node.getAttribute('data-round-progress-inner-circle-radius') || '70';
+      var outerCircleRadius = node.getAttribute('data-round-progress-outer-circle-radius') || '85';
+      var innerCircleRadius = node.getAttribute('data-round-progress-inner-circle-radius') || '60';
 
-      var labelFont = node.getAttribute('data-round-progress-label-font') || '50pt Calibri';
+      var labelFont = node.getAttribute('data-round-progress-label-font') || '40pt Helvetica Neue,Helvetica,Arial,sans-serif';
 
       return {
         pre: function preLink(scope, instanceElement, instanceAttributes, controller) {
@@ -44,7 +44,7 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
             var x = width / 2;
             var y = height / 2;
             ctx.beginPath();
-            ctx.arc(x, y, parseInt(outerCircleRadius), 0, Math.PI * 2, false);
+            ctx.arc(x, y, parseInt(outerCircleRadius), Math.PI, Math.PI * 2, false);
             ctx.lineWidth = parseInt(outerCircleWidth);
             ctx.strokeStyle = outerCircleBackgroundColor;
             ctx.stroke();
@@ -59,13 +59,13 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
             // The inner number
             ctx.font = labelFont;
             ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textBaseline = 'bottom';
             ctx.fillStyle = labelColor;
             ctx.fillText(newValue.label, x, y);
 
             // The "foreground" circle
-            var startAngle = - (Math.PI / 2);
-            var endAngle = ((Math.PI * 2 ) * newValue.percentage) - (Math.PI / 2);
+            var startAngle = - (Math.PI);
+            var endAngle = ((Math.PI) * newValue.percentage) - (Math.PI);
             var anticlockwise = false;
             ctx.beginPath();
             ctx.arc(x, y, parseInt(outerCircleRadius), startAngle, endAngle, anticlockwise);
