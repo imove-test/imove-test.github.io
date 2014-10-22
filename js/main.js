@@ -117,7 +117,9 @@ app.controller('ResultsController', function ($scope) {
     
 });
 
-app.controller('ResultController', function ($scope) {
+app.controller('ResultController', function ($scope, $routeParams) {
+
+    $scope.result = Store.getInstance().getJSONEntry($routeParams.id);
 
     $scope.exportPdf = function () {
         pdfconv();
