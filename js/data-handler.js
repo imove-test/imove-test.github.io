@@ -56,7 +56,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
             this.keyID = new Date().getTime();
             this.sendEvent("finishtest", {
                 'keyID': this.keyID,
-                'date': new Date().getDate(),
+                'date': new Date(),
                 'state': this.state,
                 'orientation': {
                     x: parseInt(x),
@@ -73,7 +73,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
 
     this.sendEvent('valueschange', {
         'keyID': this.keyID,
-        'date': new Date().getDate(),
+        'date': new Date(),
         'state': this.state,
         'orientation': {
             x: parseInt(x),
