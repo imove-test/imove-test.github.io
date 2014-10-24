@@ -6,6 +6,8 @@ function DataHandler() {
     this.test = "R1";
     this.r1;
     this.r2;
+    this.currentAngle;
+    this.lastAngle;
     this.startAngle;
     this.endAngle;
     this.eventCounterGyroscope = 0;
@@ -27,9 +29,15 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
     var y = event.gamma; // In degree in the range [-90,90]
     var z = event.alpha;
     var counter = 0;
+    this.eventCounterGyroscope = 1;
 
+    if (x > 94)
+        x = 180 - x;
+    if (x < 0)
+        x *= -1;
+    this.currentAngle = x;
     if (this.state == "Starting") {
-        if (x > 80 && x < 92) {
+        if (x > 84 && x < 92) {
             this.startAngle = x;
             this.state = "Ready";
             this.sendEvent("statechange");
@@ -69,6 +77,12 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
                 'eventStack': this.eventStack
             });
         }
+    } else if (this.state == "Moving" && this.test == "R2")
+    {
+        if(this.lastAngle < this.currentAngle)
+        {
+            this.state = "Stopped";
+        }
     }
 
     this.sendEvent('valueschange', {
@@ -85,20 +99,28 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         'a': this.startACC,
         'eventStack': this.eventStack
     });
+    this.lastAngle = this.currentAngle;
 }
 
 DataHandler.prototype.handleAccelerationEvents = function (event) {
     var acceleration = event.acceleration;
     this.startACC = acceleration.z;
-    if (this.state == "Ready" && acceleration.z > 1) {
+    if (this.state == "Ready" && acceleration.z < -0.1 && this.test == "R1") {
         this.state = "Moving";
     }
-    if (this.state == "Moving" && acceleration.z < 0.2) {
+    else if (this.state == "Moving" && 0 == Math.floor(acceleration.z) && this.test == "R1") {
         this.state = "Stopped";
+    }
+    if (this.state == "Ready" && this.currentAngle < 84 && this.test == "R2") {
+        this.state = "Moving";
+    }
+    else if (this.state == "Moving" &&  0 == Math.floor(acceleration.z) && this.test == "R2") {
+        //this.state = "Stopped";
     }
 }
 
-DataHandler.prototype.addEventListener = function (name, callback) {
+DataHandler.prototype.addEventListener = function (name, callback)
+{
     this.eventHandlers[name].push(callback);
 }
 
