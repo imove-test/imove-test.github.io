@@ -7,7 +7,7 @@ function DataHandler() {
     this.r1;
     this.r2;
     this.currentAngle;
-    this.lastAngle;
+    this.lastAngle = 0;
     this.startAngle;
     this.endAngle;
     this.eventCounterGyroscope = 0;
@@ -30,11 +30,10 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
     var z = event.alpha;
     var counter = 0;
     this.eventCounterGyroscope = 1;
-
-    if (x > 94)
+    if (x > 90)
         x = 180 - x;
     if (x < 0)
-        x *= -1;
+        x = 0;
     this.currentAngle = x;
     if (this.state == "Starting") {
         if (x > 84 && x < 92) {
@@ -48,7 +47,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
             }
 
         }
-    } else if (this.state == "Ready") {} else if (this.state == "Stopped") {
+    } else if (this.state == "Stopped") {
         this.endAngle = x;
         if (this.test == "R1") {
             this.r1 = this.calculateR1(this.startAngle, this.endAngle);
@@ -77,13 +76,11 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
                 'eventStack': this.eventStack
             });
         }
-    } else if (this.state == "Moving" && this.test == "R2")
-    {
-        if(this.lastAngle < this.currentAngle)
-        {
+    } else if (this.test == "R2" && this.state == "Moving") {
+        if (this.lastAngle < this.currentAngle)
             this.state = "Stopped";
-        }
     }
+
 
     this.sendEvent('valueschange', {
         'keyID': this.keyID,
@@ -100,22 +97,22 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         'eventStack': this.eventStack
     });
     this.lastAngle = this.currentAngle;
+    console.log(this.state);
 }
 
 DataHandler.prototype.handleAccelerationEvents = function (event) {
     var acceleration = event.acceleration;
     this.startACC = acceleration.z;
-    if (this.state == "Ready" && acceleration.z < -0.1 && this.test == "R1") {
+    var acc = Math.abs(acceleration.z);
+    if (this.state == "Ready" && acc > 1 && this.test == "R1") {
         this.state = "Moving";
+        console.log(this.state);
     }
-    else if (this.state == "Moving" && 0 == Math.floor(acceleration.z) && this.test == "R1") {
+    else if (this.state == "Moving" && Math.floor(acc) == 0 && this.test == "R1") {
         this.state = "Stopped";
     }
-    if (this.state == "Ready" && this.currentAngle < 84 && this.test == "R2") {
+    else if (this.state == "Ready" && this.currentAngle < 84 && this.test == "R2") {
         this.state = "Moving";
-    }
-    else if (this.state == "Moving" &&  0 == Math.floor(acceleration.z) && this.test == "R2") {
-        //this.state = "Stopped";
     }
 }
 
