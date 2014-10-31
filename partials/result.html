@@ -11,9 +11,9 @@
 	    </thead>
 	    <tbody>
 	        <tr>
-	            <td>{{ result.date }}</a></td>
-	            <td>{{ result.r1 }}</td>
-	            <td>{{ result.r2 }}</td>
+	            <td>{{ result.date | date:'medium' }}</a></td>
+	            <td>{{ result.r1 | number:2 }}</td>
+	            <td>{{ result.r2 | number:2 }}</td>
 	        </tr>
 	    </tbody>
 	</table>
