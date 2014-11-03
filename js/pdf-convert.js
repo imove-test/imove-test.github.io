@@ -1,14 +1,20 @@
 function pdfconv() {
-	var table = tableToJson($('#table').get(0));
+	//var table = document.getElementsByClassName('table')[0];
+	//var arr = tableToJson(table);
+	//console.log(table);
+	//console.log(arr);
 	var doc = new jsPDF('p','pt','a4',true);
 	var element = document.getElementById('render');
 	doc.fromHTML(element, 15, 15, {'width': 170});
 	doc.cellInitialize();
-	$.each(table, function (i, row){
-  		$.each(row, function (j, cell){
-    			doc.cell(10, 200, 100, 20, cell, i);
-  		})
-	})
+	//console.log(arr.length);
+	//console.log(table.rows);
+	/*for (var i=0, maxlen=arr.length+1; i<maxlen; i++) {
+		for (var j=0, maxwid=table.rows[i].cells.length; j<maxwid; j++) {
+			doc.cell(10,200,100,20,table.rows[i].cells[j].innerHTML,i);
+			console.log(table.rows[i].cells[j]);
+		}
+	}*/
 	doc.save();
 	doc.output('dataurlnewwindow');
 }
