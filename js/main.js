@@ -115,38 +115,6 @@ app.controller('ResultsController', function ($scope) {
 
     $scope.results = Store.getInstance().getAllEntries();
     
-    $scope.genDebugTest = function () {
-        var debugTest1 = {
-            'keyID': 1234,
-            'date': new Date(),
-            'state': 0,
-            'orientation': {
-                x: parseInt(0),
-                y: parseInt(0),
-                z: parseInt(0)
-            },
-            'r1': 1.0,
-            'r2': 1.0,
-            'a': 0,
-            'eventStack': 0
-        };
-        var debugTest2 = {
-            'keyID': 1235,
-            'date': new Date(),
-            'state': 0,
-            'orientation': {
-                x: parseInt(0),
-                y: parseInt(0),
-                z: parseInt(0)
-            },
-            'r1': 2.0,
-            'r2': 2.0,
-            'a': 0,
-            'eventStack': 0
-        };        
-        Store.getInstance().setJSONEntry(debugTest1.keyID, debugTest1);
-        Store.getInstance().setJSONEntry(debugTest2.keyID, debugTest2);
-    }
 });
 
 app.controller('ResultController', function ($scope, $routeParams) {
