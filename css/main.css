@@ -16,17 +16,5 @@ body.with-navbar-fixed-top {
 }
 
 #midSpacing {
-    height:25%;
+    height: 25%;
 }
-
-#botCont {
-    text-align: center;
-}
-
-#stateLabel {
-    height: 12%;
-    font-size: 15px;
-    color: #7A7A7A;
-    font-weight: bold;
-}
-
