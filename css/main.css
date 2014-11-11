@@ -9,3 +9,11 @@ body.with-navbar-fixed-top {
 .list-numeric {
     list-style-type: decimal;
 }
+
+#graph {
+	height: 200;
+	padding-left: 1%;
+	padding-right: 3%;
+}
+
+

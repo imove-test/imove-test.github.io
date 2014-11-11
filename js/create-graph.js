@@ -2,11 +2,12 @@
 // form that can be converted to a Date object, create a graph.
 function creategraph(element,data,dates) {
 	// Canvas of size 640 x 480 in DOM element "element"
-	console.log(datesToInts(dates));
-	var r = Raphael(element,640,480),
+	var w = document.getElementById(element).offsetWidth;
+	var h = document.getElementById(element).offsetHeight;
+	var r = Raphael(element,w,h),
 		txtattr = {font:"20px sans-serif"};
-	r.text(340,10,"Tardieu Scale Results").attr(txtattr);
-	r.linechart(10,20,630,460,datesToInts(dates),data,{axis: "0 0 0 1", symbol: 'circle'}).hoverColumn(function () {
+	r.text(w/2,10,"Tardieu Scale Results").attr(txtattr);
+	r.linechart(10,20,w-20,h-50,datesToInts(dates),data,{axis: "0 0 0 1", symbol: 'circle'}).hoverColumn(function () {
 		this.tags = r.set();
 		for (var i = 0, ii = this.y.length; i < ii; i++) {
 			this.tags.push(r.tag(this.x, this.y[i], intsToDates(this.values)[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.attr("fill") }]));

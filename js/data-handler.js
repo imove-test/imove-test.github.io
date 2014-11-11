@@ -8,6 +8,7 @@ function DataHandler() {
     this.r2;
     this.startAngle;
     this.endAngle;
+    this.scaleNum = 0;
     this.eventCounterGyroscope = 0;
     this.eventCounterAccelerometer = 0;
     this.gyroscope = new Array();
@@ -56,7 +57,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
             this.keyID = new Date().getTime();
             this.sendEvent("finishtest", {
                 'keyID': this.keyID,
-                'date': new Date().getDate(),
+                'date': new Date(),
                 'state': this.state,
                 'orientation': {
                     x: parseInt(x),
@@ -66,6 +67,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
                 'r1': this.r1,
                 'r2': this.r2,
                 'a': this.startACC,
+                'scaleNum': 0,
                 'eventStack': this.eventStack
             });
         }
@@ -73,7 +75,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
 
     this.sendEvent('valueschange', {
         'keyID': this.keyID,
-        'date': new Date().getDate(),
+        'date': new Date(),
         'state': this.state,
         'orientation': {
             x: parseInt(x),
@@ -83,6 +85,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         'r1': this.r1,
         'r2': this.r2,
         'a': this.startACC,
+        'scaleNum': 0,
         'eventStack': this.eventStack
     });
 }
