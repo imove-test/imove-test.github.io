@@ -247,7 +247,7 @@
 
                     for (var k = 0, kk = Xs2.length; k < kk; k++) {
                         if (Xs2[k] == Xs[i]) {
-                            C.values.push(valuesy[j][k]);
+                            C.values.push(valuesx[j][k]);
                             C.y.push(y + height - gutter - (valuesy[j][k] - miny) * ky);
                             C.symbols.push(chart.symbols[j][k]);
                         }
