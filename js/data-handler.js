@@ -15,10 +15,11 @@ function DataHandler() {
     this.gyroscope = new Array();
     this.accelerometer = new Array();
     this.startACC;
+    this.scaleValue;
     this.eventHandlers = {
         'valueschange': [],
         'statechange': [],
-        'finishtest': []
+        'finishtest': [],
     };
     this.eventStack = [];
 }
@@ -30,11 +31,14 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
     var z = event.alpha;
     var counter = 0;
     this.eventCounterGyroscope = 1
-    x = 90 - x;
-    if (x < 0)
-        x = 90 - x;
+
     if (x > 90)
         x = x - 90;
+    else if (x < 0)
+        x = 0;
+    else
+        x = 90 - x;
+    x = 0;
 
     this.currentAngle = x;
     if (this.state == "Starting") {
@@ -75,6 +79,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
                 'r1': this.r1,
                 'r2': this.r2,
                 'a': this.startACC,
+                't': this.getScaleValue(),
                 'eventStack': this.eventStack
             });
         }
@@ -156,4 +161,8 @@ DataHandler.prototype.returnR2 = function () {
 
 DataHandler.prototype.getState = function () {
     return this.state;
+}
+
+DataHandler.prototype.getScaleValue = function () {
+    return this.r2 - this.r1;
 }
