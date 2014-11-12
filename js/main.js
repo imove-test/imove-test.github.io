@@ -94,7 +94,6 @@ app.controller('ResultsController', function ($scope) {
     var values = storage.getGraphVals(storage.getAllEntries());
     $scope.results = storage.getAllEntries();
     creategraph('graph', storage.getTardieuNums(values), storage.getAllDates(values));
-    
 });
 
 app.controller('ResultController', function ($scope) {

@@ -111,7 +111,7 @@ var Store = (function () {
 			getAllDates: function (d) {
 				var vals = new Array();
 				for(var i = 0; i < d.length; i++) {
-					vals[i] = d[i][0];
+					vals[i] = i;
 				}
 				return vals;
 			},

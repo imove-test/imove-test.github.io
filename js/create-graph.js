@@ -7,14 +7,15 @@ function creategraph(element,data,dates) {
 	var r = Raphael(element,w,h),
 		txtattr = {font:"20px sans-serif"};
 	r.text(w/2,10,"Tardieu Scale Results").attr(txtattr);
-	r.linechart(10,20,w-20,h-50,datesToInts(dates),data,{axis: "0 0 0 1", symbol: 'circle'}).hoverColumn(function () {
+	r.linechart(10,20,w-20,h-50,datesToInts(dates),data,{axis: "0 0 0 1", symbol: 'circle'});
+	/*.hoverColumn(function () {
 		this.tags = r.set();
 		for (var i = 0, ii = this.y.length; i < ii; i++) {
 			this.tags.push(r.tag(this.x, this.y[i], intsToDates(this.values)[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.attr("fill") }]));
 			}
 		}, function () {
 			this.tags && this.tags.remove();
-	});
+	}); */
 	// console.log("Graph created");
 }
 
@@ -31,7 +32,7 @@ function datesToInts(dates) {
 function intsToDates(ints) {
 	var dates = [];
 	for (var i = 0; i < ints.length; i++) {
-		dates.push(new Date(ints[i]).toUTCString());
+		dates.push(new Date(i));
 	}
 	return dates;
 }
