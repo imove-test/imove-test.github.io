@@ -31,7 +31,7 @@ function datesToInts(dates) {
 function intsToDates(ints) {
 	var dates = [];
 	for (var i = 0; i < ints.length; i++) {
-		dates.push(new Date(ints[i]));
+		dates.push(new Date(ints[i]).toUTCString());
 	}
 	return dates;
 }
