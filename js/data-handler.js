@@ -38,7 +38,6 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         x = 0;
     else
         x = 90 - x;
-    x = 0;
 
     this.currentAngle = x;
     if (this.state == "Starting") {
@@ -101,6 +100,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         'r1': this.r1,
         'r2': this.r2,
         'a': this.startACC,
+        't': this.getScaleValue(),
         'eventStack': this.eventStack
     });
     this.lastAngle = this.currentAngle;
@@ -164,5 +164,5 @@ DataHandler.prototype.getState = function () {
 }
 
 DataHandler.prototype.getScaleValue = function () {
-    return this.r2 - this.r1;
+    return (this.r2 - this.r1);
 }
