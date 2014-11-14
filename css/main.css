@@ -18,3 +18,10 @@ body.with-navbar-fixed-top {
 #midSpacing {
     height: 25%;
 }
+
+@media screen and (orientation: portrait) {
+    .only-in-landscape {
+        width: 100%;
+        float: none;
+    }
+}
