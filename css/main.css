@@ -30,18 +30,11 @@ body.with-navbar-fixed-top {
     font-weight: bold;
 }
 
-.home-button {
-    height: 20%;
-    width: 70%;
-    margin-top:5%;
-    font-size: 130%;
-}
-
 .buttonIcon {
     
     float: left;
     font-size: 230%;
-    margin-top: 5%;
+    margin-top: 0%;
 }
 
 #strapText {
@@ -60,8 +53,23 @@ body.with-navbar-fixed-top {
 }
 
 .butText {
-    margin-top: 10%;
+    display: inline-block;
+    margin-top: 6%;
+    margin-left: 5%;
 }
 
+.btn-lg {
+    width: 60%;
+    margin-top: 5%;
+}
+
+#strapInfo {
+    color: #808080;
+    margin-top: 12%;
+}
+
+#buttonCont {
+    margin-top: 12%;
+}
 
 
