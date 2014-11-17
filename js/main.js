@@ -18,6 +18,9 @@ app.config(function ($routeProvider) {
     }).when('/results/:id', {
         templateUrl: 'partials/result.html',
         controller: 'ResultController'
+    }).when('/results/:id', {
+        templateUrl: 'partials/tutorial/tutorial1.html',
+        controller: 'TutorialController'
     });
 });
 
@@ -28,6 +31,11 @@ app.factory('DataHandler', function () {
 app.controller('IndexController', function () {});
 
 app.controller('TestBeginController', function () {
+
+});
+
+app.controller('TutorialController', function () {
+    
 
 });
 
