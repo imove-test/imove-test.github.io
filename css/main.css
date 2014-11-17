@@ -25,3 +25,46 @@ body.with-navbar-fixed-top {
         float: none;
     }
 }
+
+.buttonIcon {
+    
+    float: left;
+    font-size: 230%;
+    margin-top: 0%;
+}
+
+#strapText {
+    margin-top: 5%;
+    font-size: 130%;
+    padding-bottom: 5%;
+}
+
+.strapSpace {
+    height: 45%;
+}
+
+#strapDiv {
+    margin-top: 15%;
+    height:70%;
+
+}
+
+.butText {
+    display: inline-block;
+    margin-top: 6%;
+    margin-left: 5%;
+}
+
+.btn-lg {
+    width: 60%;
+    margin-top: 5%;
+}
+
+#strapInfo {
+    color: #808080;
+    margin-top: 12%;
+}
+
+#buttonCont {
+    margin-top: 12%;
+}
