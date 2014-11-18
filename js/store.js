@@ -100,7 +100,7 @@ var Store = (function () {
 					//for (i=0;i<a.length;i++) { alert(a[i]); }
 					var v = new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] );
 					
-					vals[i] = [v, temp[i].r1];
+					vals[i] = [v, temp[i].t];
 				}
 				vals = vals.sort(function(a,b) {
 					return (a[0].getTime())-(b[0].getTime());
