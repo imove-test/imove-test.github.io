@@ -11,6 +11,7 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
 
       var width = node.getAttribute('data-round-progress-width') || '200';
       var height = node.getAttribute('data-round-progress-height') || '200';
+      var verticalOffset = parseInt(node.getAttribute('data-round-progress-vertical-offset')) || 0;
 
       var canvas = document.createElement('canvas');
       canvas.setAttribute('width', width);
@@ -42,7 +43,7 @@ angular.module('angular.directives-round-progress', []).directive('angRoundProgr
 
             // The "background" circle
             var x = width / 2;
-            var y = height / 2;
+            var y = height / 2 + verticalOffset;
             ctx.beginPath();
             ctx.arc(x, y, parseInt(outerCircleRadius), Math.PI, Math.PI * 2, false);
             ctx.lineWidth = parseInt(outerCircleWidth);
