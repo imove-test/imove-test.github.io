@@ -123,9 +123,10 @@ app.controller('TestRunController', function ($scope, DataHandler, $location) {
 });
 
 app.controller('ResultsController', function ($scope) {
-
-    $scope.results = Store.getInstance().getAllEntries();
-    
+    var storage = Store.getInstance();
+    var values = storage.getGraphVals(storage.getAllEntries());
+    $scope.results = storage.getAllEntries();
+    creategraph('graph', storage.getTardieuNums(values), storage.getAllDates(values));
 });
 
 app.controller('ResultController', function ($scope, $routeParams) {
