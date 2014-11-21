@@ -18,6 +18,16 @@ app.config(function ($routeProvider) {
     }).when('/results/:id', {
         templateUrl: 'partials/result.html',
         controller: 'ResultController'
+    }).when('/tutorial/tutorial1', {
+        templateUrl: 'partials/tutorial/tutorial1.html',
+    }).when('/tutorial/tutorial2', {
+        templateUrl: 'partials/tutorial/tutorial2.html',
+    }).when('/tutorial/tutorial3', {
+        templateUrl: 'partials/tutorial/tutorial3.html',
+    }).when('/tutorial/tutorial4', {
+        templateUrl: 'partials/tutorial/tutorial4.html',
+    }).when('/tutorial/tutorial5', {
+        templateUrl: 'partials/tutorial/tutorial5.html',
     });
 });
 
@@ -30,6 +40,7 @@ app.controller('IndexController', function () {});
 app.controller('TestBeginController', function () {
 
 });
+
 
 app.controller('TestRunController', function ($scope, DataHandler, $location) {
     var stateCount = 0;
