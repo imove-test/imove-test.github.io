@@ -1,0 +1,33 @@
+﻿<head>
+    <title>iMove</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <script type="text/javascript" src="./js/angular.js"></script>
+    <script type="text/javascript" src="./js/angular-route.js"></script>
+    <script type="text/javascript" src="./js/angular-round-progress-directive.js"></script>
+    <script type="text/javascript" src="./js/data-handler.js"></script>
+    <script type="text/javascript" src="./js/store.js"></script>
+    <script type="text/javascript" src="./js/FileSaver.js"></script>
+    <script type="text/javascript" src="./js/jspdf.js"></script>
+    <script type="text/javascript" src="./js/jspdf.plugin.cell.js"></script>
+    <script type="text/javascript" src="./js/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="./js/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="./js/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="./js/pdf-convert.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+</head>
+<body ng-app="imove" class="with-navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">iMove</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <ng-view></ng-view>
+    </div>
+</body>
+</html>
