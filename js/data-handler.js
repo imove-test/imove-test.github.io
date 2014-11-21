@@ -6,6 +6,8 @@ function DataHandler() {
     this.test = "R1";
     this.r1;
     this.r2;
+    this.currentAngle;
+    this.lastAngle = 0;
     this.startAngle;
     this.endAngle;
     this.scaleNum = 0;
@@ -14,10 +16,11 @@ function DataHandler() {
     this.gyroscope = new Array();
     this.accelerometer = new Array();
     this.startACC;
+    this.scaleValue;
     this.eventHandlers = {
         'valueschange': [],
         'statechange': [],
-        'finishtest': []
+        'finishtest': [],
     };
     this.eventStack = [];
 }
@@ -28,9 +31,18 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
     var y = event.gamma; // In degree in the range [-90,90]
     var z = event.alpha;
     var counter = 0;
+    this.eventCounterGyroscope = 1
 
+    if (x > 90)
+        x = x - 90;
+    else if (x < 0)
+        x = 0;
+    else
+        x = 90 - x;
+
+    this.currentAngle = x;
     if (this.state == "Starting") {
-        if (x > 80 && x < 92) {
+        if (x < 6 && x >= 0) {
             this.startAngle = x;
             this.state = "Ready";
             this.sendEvent("statechange");
@@ -41,7 +53,7 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
             }
 
         }
-    } else if (this.state == "Ready") {} else if (this.state == "Stopped") {
+    } else if (this.state == "Stopped") {
         this.endAngle = x;
         if (this.test == "R1") {
             this.r1 = this.calculateR1(this.startAngle, this.endAngle);
@@ -67,11 +79,15 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
                 'r1': this.r1,
                 'r2': this.r2,
                 'a': this.startACC,
-                'scaleNum': 0,
+                't': this.getScaleValue(),
                 'eventStack': this.eventStack
             });
         }
+    } else if (this.test == "R2" && this.state == "Moving") {
+        if (this.lastAngle > this.currentAngle)
+            this.state = "Stopped";
     }
+
 
     this.sendEvent('valueschange', {
         'keyID': this.keyID,
@@ -85,23 +101,31 @@ DataHandler.prototype.handleOrientationEvents = function (event) {
         'r1': this.r1,
         'r2': this.r2,
         'a': this.startACC,
-        'scaleNum': 0,
+        't': this.getScaleValue(),
         'eventStack': this.eventStack
     });
+    this.lastAngle = this.currentAngle;
+    console.log(this.state);
 }
 
 DataHandler.prototype.handleAccelerationEvents = function (event) {
     var acceleration = event.acceleration;
     this.startACC = acceleration.z;
-    if (this.state == "Ready" && acceleration.z > 1) {
+    var acc = Math.abs(acceleration.z);
+    if (this.state == "Ready" && acc > 1 && this.test == "R1") {
         this.state = "Moving";
+        console.log(this.state);
     }
-    if (this.state == "Moving" && acceleration.z < 0.2) {
+    else if (this.state == "Moving" && Math.floor(acc) == 0 && this.test == "R1") {
         this.state = "Stopped";
+    }
+    else if (this.state == "Ready" && this.currentAngle > 6 && this.test == "R2") {
+        this.state = "Moving";
     }
 }
 
-DataHandler.prototype.addEventListener = function (name, callback) {
+DataHandler.prototype.addEventListener = function (name, callback)
+{
     this.eventHandlers[name].push(callback);
 }
 
@@ -125,7 +149,7 @@ DataHandler.prototype.sendEvent = function (name, data) {
 }
 
 DataHandler.prototype.calculateR1 = DataHandler.prototype.calculateR2 = function (start, end) {
-    return Math.abs(start - end);
+    return Math.abs(end - start);
 }
 
 DataHandler.prototype.returnR1 = function () {
@@ -138,4 +162,8 @@ DataHandler.prototype.returnR2 = function () {
 
 DataHandler.prototype.getState = function () {
     return this.state;
+}
+
+DataHandler.prototype.getScaleValue = function () {
+    return (this.r2 - this.r1);
 }

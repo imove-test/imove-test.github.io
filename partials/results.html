@@ -4,14 +4,18 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Value</th>
+            <th>Date</th>
+            <th>R1</th>
+            <th>R2</th>
+            <th>Scale</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="result in results">
-            <td><a href="#/results/{{ result.keyID }}">{{ result.keyID }}</a></td>
-            <td>{{ result.r1 }}</td>
+            <td><a href="#/results/{{ result.keyID }}">{{ result.date | date:'medium' }}</a></td>
+            <td>{{ result.r1 | number:2 }}</td>
+            <td>{{ result.r2 | number:2 }}</td>
+            <td>0</td>
         </tr>
     </tbody>
 </table>

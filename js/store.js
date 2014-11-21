@@ -35,7 +35,7 @@ var Store = (function () {
 					return false;
 				}
 
-				localStorage[key] = value;
+				localStorage.setItem(key, value);
 				return true;
 			},
 
@@ -45,7 +45,7 @@ var Store = (function () {
 			 * @return value paired to the key if one exists
 			 */
 			getEntry: function (key) {
-				return localStorage[key];
+				return localStorage.getItem(key);
 			},
 
 			/**
@@ -59,7 +59,7 @@ var Store = (function () {
 					return false;
 				}
 
-				localStorage[key] = JSON.stringify(objValue);
+				localStorage.setItem(key, JSON.stringify(objValue));
 				return true;
 			},
 
@@ -70,7 +70,7 @@ var Store = (function () {
 			 */
 			getJSONEntry: function (key) {
 				try {
-					return JSON.parse(localStorage[key]);
+					return JSON.parse(localStorage.getItem(key));
 				}
 				catch(e) {
 					return null;
@@ -87,6 +87,12 @@ var Store = (function () {
 				for(var i = 0; i < localStorage.length; i++) {
 					entries[i] = JSON.parse(localStorage.getItem(localStorage.key(i)));
 				}
+
+				entries.sort(function(a, b) {
+					var keyA = new Date(a.date);
+					var keyB = new Date(b.date);
+					return keyB - keyA
+				});
 				
 				return entries;
 			},
