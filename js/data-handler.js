@@ -165,5 +165,5 @@ DataHandler.prototype.getState = function () {
 }
 
 DataHandler.prototype.getScaleValue = function () {
-    return (this.r2 - this.r1);
+    return Math.abs(this.r2 - this.r1);
 }
