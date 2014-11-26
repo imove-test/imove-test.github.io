@@ -188,15 +188,23 @@ app.controller('ResultsController', function ($scope) {
     var values = storage.getGraphVals(storage.getAllEntries());
     $scope.results = storage.getAllEntries();
     creategraph('graph', storage.getTardieuNums(values), storage.getAllDates(values));
+
+    $scope.emailResults = function (toEmail) {
+        var entries = Store.getInstance().getAllEntries();
+        var body = "";
+        var i;
+
+        for(i in entries) {
+            body += entries[i].date + ", " + entries[i].t + "%0D%0A";
+        }
+
+        window.location.href = "mailto:" + toEmail + "?body=" + body;
+    }
 });
 
 app.controller('ResultController', function ($scope, $routeParams) {
 
     $scope.result = Store.getInstance().getJSONEntry($routeParams.id);
-
-    $scope.exportPdf = function () {
-        pdfconv();
-    }
 
 });
 
