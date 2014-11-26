@@ -22,10 +22,13 @@ app.config(function ($routeProvider) {
         templateUrl: 'partials/tutorial/tutorial1.html',
     }).when('/tutorial/tutorial2', {
         templateUrl: 'partials/tutorial/tutorial2.html',
+        controller: 'Tutorial2Constroller'
     }).when('/tutorial/tutorial3', {
         templateUrl: 'partials/tutorial/tutorial3.html',
+        controller: 'Tutorial3Constroller'
     }).when('/tutorial/tutorial4', {
         templateUrl: 'partials/tutorial/tutorial4.html',
+        controller: 'Tutorial4Constroller'
     }).when('/tutorial/tutorial5', {
         templateUrl: 'partials/tutorial/tutorial5.html',
     });
@@ -39,6 +42,64 @@ app.controller('IndexController', function () {});
 
 app.controller('TestBeginController', function () {
 
+});
+
+app.controller('Tutorial2Constroller', function ($scope) {
+    $scope.img = "images/Image_1.png";
+});
+
+app.controller('Tutorial3Constroller', function ($scope) {
+    console.log("Hey");
+    $scope.img = "images/Image_1.png";
+    var i = 0;
+    setInterval(function () {
+        switch (i) {
+            case 0:
+                $scope.img = "images/Image_1.png";
+                break;
+            case 1:
+                $scope.img = "images/Image_2.png";
+                break;
+            case 2:
+                $scope.img = "images/Image_3.png";
+                break;
+            case 3:
+                $scope.img = "images/Image_4.png";
+                break;
+        }
+        console.log($scope.img);
+        i++;
+        if (i > 3)
+            i = 0;
+        angular.element('#image').click();
+    }, 300);
+});
+
+app.controller('Tutorial4Constroller', function ($scope) {
+    console.log("Hey");
+    $scope.img = "images/Image_1.png";
+    var i = 0;
+    setInterval(function () {
+        switch (i) {
+            case 0:
+                $scope.img = "images/Image_1.png";
+                break;
+            case 1:
+                $scope.img = "images/Image_2.png";
+                break;
+            case 2:
+                $scope.img = "images/Image_3.png";
+                break;
+            case 3:
+                $scope.img = "images/Image_4.png";
+                break;
+        }
+        console.log($scope.img);
+        i++;
+        if (i > 3)
+            i = 0;
+        angular.element('#image').click();
+    }, 600);
 });
 
 
