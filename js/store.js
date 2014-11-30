@@ -95,6 +95,39 @@ var Store = (function () {
 				});
 				
 				return entries;
+			},
+
+			getGraphVals: function (d) {
+				var vals = new Array();
+				var temp = d;
+				for(var i = 0; i < temp.length; i++) {
+					var s = temp[i].date;
+					var a = s.split(/[^0-9]/);
+					//for (i=0;i<a.length;i++) { alert(a[i]); }
+					var v = new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] );
+					
+					vals[i] = [v, temp[i].t];
+				}
+				vals = vals.sort(function(a,b) {
+					return (a[0].getTime())-(b[0].getTime());
+				});
+				return vals;
+			},
+
+			getAllDates: function (d) {
+				var vals = new Array();
+				for(var i = 0; i < d.length; i++) {
+					vals[i] = i;
+				}
+				return vals;
+			},
+
+			getTardieuNums: function(d) {
+				var vals = new Array();
+				for(var i = 0; i < d.length; i++) {
+					vals[i] = d[i][1];
+				}
+				return vals;
 			}
 		};
 	};

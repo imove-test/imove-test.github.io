@@ -10,6 +10,7 @@ function DataHandler() {
     this.lastAngle = 0;
     this.startAngle;
     this.endAngle;
+    this.scaleNum = 0;
     this.eventCounterGyroscope = 0;
     this.eventCounterAccelerometer = 0;
     this.gyroscope = new Array();
@@ -164,5 +165,5 @@ DataHandler.prototype.getState = function () {
 }
 
 DataHandler.prototype.getScaleValue = function () {
-    return (this.r2 - this.r1);
+    return Math.abs(this.r2 - this.r1);
 }
