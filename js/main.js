@@ -194,8 +194,12 @@ app.controller('ResultsController', function ($scope) {
         var body = "";
         var i;
 
+        body += "Date, R1, R2, Scale%0D%0A";
+
         for(i in entries) {
-            body += entries[i].date + ", " + entries[i].t + "%0D%0A";
+            var d = new Date(Date.parse(entries[i].date));
+            var dStr = d.toLocaleString();
+            body += d + ", " + entries[i].r1.toFixed(2) + ", " + entries[i].r2.toFixed(2) + ", " + entries[i].t.toFixed(2) + "%0D%0A";
         }
 
         window.location.href = "mailto:" + toEmail + "?body=" + body;
