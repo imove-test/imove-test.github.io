@@ -3,6 +3,8 @@ iMove
 
 Test your arm mobility.
 
+Or access it at [imove-test.github.io](https://imove-test.github.io).
+
 
 Running the app
 ===============
