@@ -1,5 +1,16 @@
-<ul class="list-numeric">
-    <li ng-repeat="step in steps" ng-class="{strikethrough: step.state == 'done'}">{{ step.text }}</li>
-</ul>
-<p>{{ data.values }}</p>
-<a href="#/results/1" class="btn btn-primary">Done</a>
+<div class="row">
+    <div class="col-xs-6 only-in-landscape">
+        <div class="text-center h4" ng-repeat="step in steps | filter:{state:'Current'}">{{ step.text }}</div>
+    </div>
+    <div class="col-xs-6 only-in-landscape">
+        <div id="measureDiv">
+            <div ang:round:progress data-round-progress-model="progressWheel" data-round-progress-height="100" data-round-progress-vertical-offset="50"></div>
+        </div>
+    </div>
+</div>
+<div id="midSpacing"></div>
+<div id="botCont">
+    <div id="progressBar"class="progress">
+        <div class="progress-bar progress-bar-success progress-bar-striped active" id="prgBar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent }}%"></div>
+    </div>
+</div>

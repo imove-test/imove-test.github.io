@@ -1,3 +1,7 @@
+body {
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
 body.with-navbar-fixed-top {
     padding-top: 60px;
 }
@@ -6,6 +10,69 @@ body.with-navbar-fixed-top {
     text-decoration: line-through;
 }
 
-.list-numeric {
-    list-style-type: decimal;
+#measureDiv {
+    text-align: center;
+    margin-top: 3%;
 }
+
+#midSpacing {
+    height: 25%;
+}
+
+@media screen and (orientation: portrait) {
+    .only-in-landscape {
+        width: 100%;
+        float: none;
+    }
+}
+
+.buttonIcon {
+    
+    float: left;
+    font-size: 230%;
+    margin-top: 0%;
+}
+
+#strapText {
+    margin-top: 5%;
+    font-size: 130%;
+    padding-bottom: 5%;
+}
+
+.strapSpace {
+    height: 45%;
+}
+
+#strapDiv {
+    margin-top: 15%;
+    height:70%;
+
+}
+
+.butText {
+    display: inline-block;
+    margin-top: 6%;
+    margin-left: 5%;
+}
+
+.btn-lg {
+    width: 60%;
+    margin-top: 5%;
+}
+
+#strapInfo {
+    color: #808080;
+    margin-top: 12%;
+}
+
+#buttonCont {
+    margin-top: 12%;
+}
+
+#graph {
+	height: 200;
+	padding-left: 1%;
+	padding-right: 3%;
+}
+
+

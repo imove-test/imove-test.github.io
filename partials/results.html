@@ -1,15 +1,24 @@
 <h2>Results</h2>
+<p id="err"></p>
+<div id='graph'></div>
 <table class="table">
     <thead>
         <tr>
             <th>Date</th>
-            <th>Value</th>
+            <th>R1</th>
+            <th>R2</th>
+            <th>Scale</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="result in results">
-            <td><a href="#/results/{{ result.id }}">{{ result.date }}</a></td>
-            <td>{{ result.r1 }}</td>
+            <td><a href="#/results/{{ result.keyID }}">{{ result.date | date:'medium' }}</a></td>
+            <td>{{ result.r1 | number:2 }}</td>
+            <td>{{ result.r2 | number:2 }}</td>
+            <td>{{ result.t | number:2 }} </td>
         </tr>
     </tbody>
 </table>
+<p>Send to Email: </p><input type="text" ng-model="toEmail" />
+<br />
+<button ng-click="emailResults(toEmail)" class="btn btn-primary">Email Results</button>
